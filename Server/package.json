@@ -1,13 +1,13 @@
 {
-  "name": "typescript-boilerplate",
+  "name": "mytaxi-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "ubber Clone Server",
   "main": "index.js",
   "scripts": {
     "dev": "cd src && nodemon --exec ts-node index.ts -e ts,graphql",
     "generate": "graphql-codegen"
   },
-  "author": "",
+  "author": "IMRAN IRSHAD",
   "license": "ISC",
   "devDependencies": {
     "@graphql-codegen/cli": "^1.12.2",
