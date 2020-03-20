@@ -1,0 +1,312 @@
+# import * from '../generated/prisma.graphql'
+
+enum STATUS {
+  ACCEPTED
+  FINISHED
+  CANCELED
+  REQUESTING
+  ON_ROUTE
+}
+
+type Query {
+  getMyProfile: getMyProfileResponse!
+  getMyplaces: GetMyPlacesResponse!
+  getNearbyDrivers: getNearbyDriversRespones!
+  getNearByRides: getNearByRidesResponse!
+  getRide(id: ID!): getRideResponse!
+  getChatRoom(id: ID!): getChatRoomResponse!
+}
+type getChatRoomResponse {
+  ok: Boolean!
+  error: String
+  Chat: Chat
+}
+type getRideResponse {
+  ok: Boolean!
+  error: String
+  Ride: Ride
+}
+type getNearByRidesResponse {
+  ok: Boolean
+  error: String
+  Ride: [Ride]!
+}
+
+type getNearbyDriversRespones {
+  ok: Boolean!
+  error: String
+  drivers: [User]!
+}
+
+type GetMyPlacesResponse {
+  ok: Boolean!
+  error: String
+  places: [Places]
+}
+
+type getMyProfileResponse {
+  ok: Boolean!
+  error: String
+  user: User
+}
+
+type Subscription {
+  DriversSubscriptions: DriversSubscriptionPayload
+  NearByRidesSubscription: RideSubscriptionPayload
+  RideStatusSubscription: RideSubscriptionPayload
+  ChatMessageSubscription: ChatMessageSubscriptionPayload
+}
+type ChatMessageSubscriptionPayload {
+  mutation: MutationType!
+  node: ChatMessage
+  updatedFields: [String!]
+  previousValues: ChatMessagePreviousValues
+}
+
+type RideSubscriptionPayload {
+  mutation: MutationType
+  node: Ride
+  updatedFields: [String!]
+  previousValues: RidePreviousValues
+}
+
+type DriversSubscriptionPayload {
+  mutation: MutationType
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+type Mutation {
+  createUser(
+    firstName: String!
+    lastName: String
+    email: String
+    password: String!
+    age: Int
+    avatar: String
+  ): CreateUserResponse!
+
+  FBConnect(
+    firstName: String
+    lastName: String
+    email: String
+    fbId: String!
+  ): FBConnectResponse!
+  loginUser(email: String!, password: String!): LoginUserResponse!
+  logoutUser: Message
+  requestReset(email: String!): requestResetResponse!
+  resetPassword(
+    token: String!
+    password: String!
+    confirmPassword: String!
+  ): resetPasswordResponse!
+  StartPhoneVerification(phone: String!): PhoneVerificationResponse!
+  CompletePhoneVerification(
+    phone: String!
+    key: String!
+  ): CompletePhoneVericationResponse!
+  requestEmailVerification(email: String!): RequestEmailVerificationResponse!
+  verifyEmail(email: String!, key: String!): verifyEmailResponse!
+  updateMyprofile(
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+    age: Int
+    avatar: String
+  ): updateMyprofileResponse!
+  toggleDrivingMode: toggleDrivingModeResponse!
+  reportOrientation(
+    lat: Float
+    lng: Float
+    orientation: Float
+  ): reportOrientationResponse!
+  addPlace(
+    name: String!
+    address: String!
+    image: String
+    description: String
+    isFav: Boolean
+    Lat: Float
+    Lng: Float
+  ): addPlaceResponse!
+  editPlace(
+    id: String!
+    name: String
+    isFav: Boolean
+    image: String
+    description: String
+  ): editPlaceResponse!
+  deletePlace(id: String!): deletePlaceResponse!
+  requestRide(
+    status: STATUS
+    pickUpLat: Float
+    pickUpLng: Float
+    pickUpAddress: String!
+    dropOffLat: Float
+    dropOffLng: Float
+    dropOffAddress: String!
+    price: Float!
+    duration: String!
+    distance: String!
+  ): requestRideResponse!
+  updateRideStatus(id: ID!, status: STATUS!): updateRideStatusResponse!
+  sendChatMessage(text: String!, chatId: ID!): sendChatMessageResponse!
+}
+
+type sendChatMessageResponse {
+  ok: Boolean!
+  error: String
+  message: ChatMessage
+}
+type updateRideStatusResponse {
+  ok: Boolean
+  error: String
+}
+
+type requestRideResponse {
+  ok: Boolean
+  error: String
+  Ride: Ride
+}
+
+type deletePlaceResponse {
+  ok: Boolean!
+  error: String
+}
+
+type editPlaceResponse {
+  ok: Boolean!
+  error: String
+}
+type addPlaceResponse {
+  ok: Boolean!
+  error: String
+}
+
+type reportOrientationResponse {
+  ok: Boolean!
+  error: String
+}
+
+type toggleDrivingModeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type requestResetResponse {
+  ok: Boolean!
+  error: String
+  message: String
+}
+type resetPasswordResponse {
+  ok: Boolean!
+  error: String
+  token: String
+  successMessage: String
+}
+
+type updateMyprofileResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+type verifyEmailResponse {
+  ok: Boolean!
+  error: String
+  token: String
+  user: User
+}
+
+type RequestEmailVerificationResponse {
+  ok: Boolean!
+  error: String
+}
+
+type PhoneVerificationResponse {
+  ok: Boolean!
+  error: String
+}
+type CompletePhoneVericationResponse {
+  ok: Boolean!
+  error: String
+  token: String
+  user: User
+}
+type FBConnectResponse {
+  ok: Boolean!
+  error: String
+  token: String
+  user: User
+}
+
+type CreateUserResponse {
+  ok: Boolean!
+  error: String
+  token: String
+  user: User
+}
+type LoginUserResponse {
+  ok: Boolean!
+  error: String
+  token: String
+  user: User
+}
+
+type Message {
+  message: String
+}
+
+type Varify {
+  id: ID!
+  payload: String
+  target: String
+  key: String
+}
+
+type CreateUser {
+  firstName: String!
+  lastName: String
+  email: String!
+  password: String!
+}
+
+type LoginUser {
+  email: String!
+  password: String!
+}
+type LogoutUser {
+  Message: Message
+}
+
+type RequestReset {
+  email: String
+}
+type ResetPassword {
+  token: String!
+  password: String!
+  confirmPassword: String!
+}
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String
+  fullName: String
+  email: String
+  varyfication: Varify
+  varyfiedEmail: Boolean!
+  age: Int
+  phone: String
+  varyfiedPhone: Boolean!
+  avatar: String
+  resetToken: String
+  resetTokenExpiry: Float
+  lastLat: Float
+  lastLng: Float
+  lastOrientation: Float
+  isDriving: Boolean
+  isRiding: Boolean
+  isTaken: Boolean
+  isVerified: Boolean
+}

@@ -1,0 +1,112 @@
+enum ROLE {
+    ADMIN
+    Driver
+    PASSENGER
+}
+enum TARGET {
+  PHONE
+  EMAIL
+} 
+enum STATUS {
+  ACCEPTED
+  FINISHED
+  CANCELED
+  REQUESTING
+  ON_ROUTE
+}
+
+type User {
+  id: ID! @id
+  firstName: String!
+  lastName: String
+  fullName: String  
+  fbId: String @unique
+  email: String @unique
+  phone: String @unique
+  varyfiedEmail:  Boolean! @default(value: false)
+  age: Int
+  varyfiedPhone: Boolean!  @default(value: false)
+  password: String
+  avatar: String
+  resetToken: String
+  resetTokenExpiry: Float
+  lastLat: Float!          @default(value: 0)
+  lastLng: Float!          @default(value: 0)
+  lastOrientation: Float!  @default(value: 0)
+  isDriving: Boolean!      @default(value: false)
+  isRiding: Boolean!       @default(value: false)
+  isTaken: Boolean!        @default(value: false)
+  isVerified: Boolean!     @default(value: false)
+  places:           [Places]!
+  varyfication:     [Varyfication]!    
+  DriverChat:                 Chat  @relation(link: INLINE, name: "DriverChat")              
+  PassengerChat:              Chat  @relation(link: INLINE, name: "PassengerChat")              
+  chatMessage:      [ChatMessage]!     
+  asDriver: Ride               @relation(link: INLINE, name: "UserDriver")              
+  asPassenger: Ride             @relation(link: INLINE, name: "UserPassenger")       
+  createdAt: DateTime!    @createdAt
+  updatedAt: DateTime!    @updatedAt
+}
+
+type Varyfication {
+    id: ID! @id
+    target: TARGET @default(value: EMAIL)
+    payload: String! @unique
+    key: String! @unique
+    user: User    
+    createdAt: DateTime!    @createdAt
+    updatedAt: DateTime!    @updatedAt
+}
+
+type Places {
+    id: ID! @id
+    name: String!
+    address: String!
+    image: String
+    description: String
+    user: User!
+    isFav: Boolean! @default(value: false)
+    Lat: Float          @default(value: 0)
+    Lng: Float          @default(value: 0)
+    createdAt: DateTime!    @createdAt
+    updatedAt: DateTime!    @updatedAt
+}
+
+type Ride {
+    id: ID! @id
+    status: STATUS            @default(value: REQUESTING)
+    pickUpLat: Float          @default(value: 0)
+    pickUpLng: Float          @default(value: 0)
+    pickUpAddress: String!
+    dropOffLat: Float          @default(value: 0)
+    dropOffLng: Float          @default(value: 0)
+    dropOffAddress: String!
+    price: Float!
+    duration: String!
+    distance: String!
+    chat: Chat @relation(link: INLINE)
+    driver: User             @relation( name: "UserDriver")             
+    passenger: User          @relation( name: "UserPassenger")  
+    createdAt: DateTime!      @createdAt
+    updatedAt: DateTime!      @updatedAt
+}
+
+type Chat {
+    id: ID! @id
+    ride: Ride
+    message: [ChatMessage]!
+    chatAsDriver: User     @relation( name: "DriverChat") 
+    ChatAsPassenger: User  @relation( name: "PassengerChat")
+    createdAt: DateTime!    @createdAt
+    updatedAt: DateTime!    @updatedAt
+
+}
+type ChatMessage {
+    id: ID! @id
+    text: String!
+    chat: Chat  
+    user: User!  
+    createdAt: DateTime!    @createdAt
+    updatedAt: DateTime!    @updatedAt
+
+}
