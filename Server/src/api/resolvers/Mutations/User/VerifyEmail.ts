@@ -1,4 +1,4 @@
-import { GenUserToke } from "../../../../Utills/GenerateJwt";
+import { GenUserTokenwithCookies } from "../../../../Utills/GenerateJwt";
 import { Context } from "../../../../types/Context";
 import {
   MutationVerifyEmailArgs,
@@ -48,14 +48,14 @@ export const verifyEmail = async (
       }
     });
 
-    const Token: string = GenUserToke(user.id);
+    const Token = GenUserTokenwithCookies(user.id, ctx.response);
 
     //TODO Check if both email and passwords are verfied then update user to isVarified=true
 
     return {
       ok: true,
       error: null,
-      token: Token,
+      token: "Token",
       user: null
     };
   } catch (error) {

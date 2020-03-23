@@ -1,4 +1,4 @@
-import { GenUserToke } from "../../../../Utills/GenerateJwt";
+import { GenUserTokenwithCookies } from "../../../../Utills/GenerateJwt";
 import { Context } from "../../../../types/Context";
 import {
   MutationFbConnectArgs,
@@ -21,11 +21,11 @@ export const FBConnect = async (
 
     // if user Exists Log them in
     if (UserExists) {
-      const UserExistsToken = GenUserToke(UserExists.id);
+      const Token = GenUserTokenwithCookies(UserExists.id, ctx.response);
       return {
         ok: true,
         error: null,
-        token: UserExistsToken,
+        token: "UserExistsToken",
         user: UserExists
       };
     }
@@ -36,11 +36,12 @@ export const FBConnect = async (
         avatar: `http://graph.facebook.com/${args.fbId}/picture?type=square`
       }
     });
-    const NewUserToken = GenUserToke(NewUser.id);
+    const Token = GenUserTokenwithCookies(NewUser.id, ctx.response);
+
     return {
       ok: true,
       error: null,
-      token: NewUserToken,
+      token: "Token",
       user: NewUser
     };
   } catch (error) {

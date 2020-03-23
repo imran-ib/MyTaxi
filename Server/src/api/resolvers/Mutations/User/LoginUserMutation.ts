@@ -1,5 +1,5 @@
 import { Context } from "graphql-yoga/dist/types";
-import { GenUserToke } from "../../../../Utills/GenerateJwt";
+import { GenUserTokenwithCookies } from "../../../../Utills/GenerateJwt";
 import { ComparePassword } from "../../../../Utills/HashPassword";
 import {
   MutationLoginUserArgs,
@@ -47,13 +47,13 @@ export const loginUser = async (
       };
     }
 
-    const Token = GenUserToke(user.id);
+    const Token = GenUserTokenwithCookies(user.id, ctx.response);
 
     if (user && validPassword) {
       return {
         ok: true,
         error: null,
-        token: Token,
+        token: null,
         user: user
       };
     }

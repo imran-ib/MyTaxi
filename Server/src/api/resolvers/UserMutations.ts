@@ -30,6 +30,7 @@ export const requestReset = async (
   ctx.response.clearCookie("Token");
 
   // check if there is user registred with that email
+
   const user = await ctx.prisma.query.user({
     where: { email: args.email }
   });

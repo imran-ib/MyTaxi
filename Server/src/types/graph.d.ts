@@ -60,6 +60,22 @@ export enum ChatMessageOrderByInput {
   UpdatedAtDesc = 'updatedAt_DESC'
 }
 
+export type ChatMessagePreviousValues = {
+   __typename?: 'ChatMessagePreviousValues',
+  id: Scalars['ID'],
+  text: Scalars['String'],
+  createdAt: Scalars['DateTime'],
+  updatedAt: Scalars['DateTime'],
+};
+
+export type ChatMessageSubscriptionPayload = {
+   __typename?: 'ChatMessageSubscriptionPayload',
+  mutation: MutationType,
+  node?: Maybe<ChatMessage>,
+  updatedFields?: Maybe<Array<Scalars['String']>>,
+  previousValues?: Maybe<ChatMessagePreviousValues>,
+};
+
 export type ChatMessageWhereInput = {
   AND?: Maybe<Array<ChatMessageWhereInput>>,
   OR?: Maybe<Array<ChatMessageWhereInput>>,
@@ -566,6 +582,7 @@ export type PlacesWhereInput = {
 
 export type Query = {
    __typename?: 'Query',
+  me: User,
   getMyProfile: GetMyProfileResponse,
   getMyplaces: GetMyPlacesResponse,
   getNearbyDrivers: GetNearbyDriversRespones,
@@ -834,6 +851,7 @@ export type Subscription = {
   DriversSubscriptions?: Maybe<DriversSubscriptionPayload>,
   NearByRidesSubscription?: Maybe<RideSubscriptionPayload>,
   RideStatusSubscription?: Maybe<RideSubscriptionPayload>,
+  ChatMessageSubscription?: Maybe<ChatMessageSubscriptionPayload>,
 };
 
 export enum Target {
@@ -1308,14 +1326,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>,
-  getMyProfileResponse: ResolverTypeWrapper<GetMyProfileResponse>,
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
-  String: ResolverTypeWrapper<Scalars['String']>,
   User: ResolverTypeWrapper<User>,
   ID: ResolverTypeWrapper<Scalars['ID']>,
+  String: ResolverTypeWrapper<Scalars['String']>,
   Varify: ResolverTypeWrapper<Varify>,
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
   Float: ResolverTypeWrapper<Scalars['Float']>,
+  getMyProfileResponse: ResolverTypeWrapper<GetMyProfileResponse>,
   GetMyPlacesResponse: ResolverTypeWrapper<GetMyPlacesResponse>,
   Places: ResolverTypeWrapper<Places>,
   Node: ResolverTypeWrapper<Node>,
@@ -1362,6 +1380,8 @@ export type ResolversTypes = {
   UserPreviousValues: ResolverTypeWrapper<UserPreviousValues>,
   RideSubscriptionPayload: ResolverTypeWrapper<RideSubscriptionPayload>,
   RidePreviousValues: ResolverTypeWrapper<RidePreviousValues>,
+  ChatMessageSubscriptionPayload: ResolverTypeWrapper<ChatMessageSubscriptionPayload>,
+  ChatMessagePreviousValues: ResolverTypeWrapper<ChatMessagePreviousValues>,
   CreateUser: ResolverTypeWrapper<CreateUser>,
   LoginUser: ResolverTypeWrapper<LoginUser>,
   LogoutUser: ResolverTypeWrapper<LogoutUser>,
@@ -1373,14 +1393,14 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {},
-  getMyProfileResponse: GetMyProfileResponse,
-  Boolean: Scalars['Boolean'],
-  String: Scalars['String'],
   User: User,
   ID: Scalars['ID'],
+  String: Scalars['String'],
   Varify: Varify,
+  Boolean: Scalars['Boolean'],
   Int: Scalars['Int'],
   Float: Scalars['Float'],
+  getMyProfileResponse: GetMyProfileResponse,
   GetMyPlacesResponse: GetMyPlacesResponse,
   Places: Places,
   Node: Node,
@@ -1427,6 +1447,8 @@ export type ResolversParentTypes = {
   UserPreviousValues: UserPreviousValues,
   RideSubscriptionPayload: RideSubscriptionPayload,
   RidePreviousValues: RidePreviousValues,
+  ChatMessageSubscriptionPayload: ChatMessageSubscriptionPayload,
+  ChatMessagePreviousValues: ChatMessagePreviousValues,
   CreateUser: CreateUser,
   LoginUser: LoginUser,
   LogoutUser: LogoutUser,
@@ -1459,6 +1481,22 @@ export type ChatMessageResolvers<ContextType = any, ParentType extends Resolvers
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ChatMessagePreviousValuesResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatMessagePreviousValues'] = ResolversParentTypes['ChatMessagePreviousValues']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ChatMessageSubscriptionPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['ChatMessageSubscriptionPayload'] = ResolversParentTypes['ChatMessageSubscriptionPayload']> = {
+  mutation?: Resolver<ResolversTypes['MutationType'], ParentType, ContextType>,
+  node?: Resolver<Maybe<ResolversTypes['ChatMessage']>, ParentType, ContextType>,
+  updatedFields?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>,
+  previousValues?: Resolver<Maybe<ResolversTypes['ChatMessagePreviousValues']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -1633,6 +1671,7 @@ export type PlacesResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  me?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
   getMyProfile?: Resolver<ResolversTypes['getMyProfileResponse'], ParentType, ContextType>,
   getMyplaces?: Resolver<ResolversTypes['GetMyPlacesResponse'], ParentType, ContextType>,
   getNearbyDrivers?: Resolver<ResolversTypes['getNearbyDriversRespones'], ParentType, ContextType>,
@@ -1743,6 +1782,7 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
   DriversSubscriptions?: SubscriptionResolver<Maybe<ResolversTypes['DriversSubscriptionPayload']>, "DriversSubscriptions", ParentType, ContextType>,
   NearByRidesSubscription?: SubscriptionResolver<Maybe<ResolversTypes['RideSubscriptionPayload']>, "NearByRidesSubscription", ParentType, ContextType>,
   RideStatusSubscription?: SubscriptionResolver<Maybe<ResolversTypes['RideSubscriptionPayload']>, "RideStatusSubscription", ParentType, ContextType>,
+  ChatMessageSubscription?: SubscriptionResolver<Maybe<ResolversTypes['ChatMessageSubscriptionPayload']>, "ChatMessageSubscription", ParentType, ContextType>,
 };
 
 export type ToggleDrivingModeResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['toggleDrivingModeResponse'] = ResolversParentTypes['toggleDrivingModeResponse']> = {
@@ -1846,6 +1886,8 @@ export type Resolvers<ContextType = any> = {
   addPlaceResponse?: AddPlaceResponseResolvers<ContextType>,
   Chat?: ChatResolvers<ContextType>,
   ChatMessage?: ChatMessageResolvers<ContextType>,
+  ChatMessagePreviousValues?: ChatMessagePreviousValuesResolvers<ContextType>,
+  ChatMessageSubscriptionPayload?: ChatMessageSubscriptionPayloadResolvers<ContextType>,
   CompletePhoneVericationResponse?: CompletePhoneVericationResponseResolvers<ContextType>,
   CreateUser?: CreateUserResolvers<ContextType>,
   CreateUserResponse?: CreateUserResponseResolvers<ContextType>,

@@ -1,4 +1,4 @@
-import { GenUserToke } from "./../../../../Utills/GenerateJwt";
+import { GenUserTokenwithCookies } from "./../../../../Utills/GenerateJwt";
 import { Context } from "./../../../../types/Context";
 import {
   MutationResetPasswordArgs,
@@ -65,11 +65,11 @@ export const resetPassword = AuthResolver(
         }
       });
       // log user in
-      const Token = GenUserToke(updatedUser.id);
+      const Token = GenUserTokenwithCookies(updatedUser.id, ctx.response);
       return {
         ok: true,
         error: null,
-        token: Token,
+        token: "",
         successMessage: "Your New Password has been set"
       };
     } catch (error) {

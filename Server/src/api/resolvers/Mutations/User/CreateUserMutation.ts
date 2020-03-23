@@ -2,7 +2,7 @@ import { ElevenDigitKey } from "../../../../Utills/GenCustomKey";
 import { Mails } from "../../../../Utills/SendMail";
 import { Context } from "graphql-yoga/dist/types";
 import validateEmail from "../../../../Utills/ValidateEmail";
-import { GenUserToke } from "../../../../Utills/GenerateJwt";
+import { GenUserTokenwithCookies } from "../../../../Utills/GenerateJwt";
 import { Hash } from "../../../../Utills/HashPassword";
 import {
   User,
@@ -89,12 +89,13 @@ export const createUser = async (
       }
     });
     // genrate Token
-    const Token: string = GenUserToke(NewUser.id);
+    const Token = GenUserTokenwithCookies(NewUser.id, ctx.response);
     //log the user in
+
     return {
       ok: true,
       error: null,
-      token: Token,
+      token: "Token",
       user: NewUser
     };
   } catch (error) {

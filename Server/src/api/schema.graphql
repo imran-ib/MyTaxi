@@ -9,6 +9,7 @@ enum STATUS {
 }
 
 type Query {
+  me: User
   getMyProfile: getMyProfileResponse!
   getMyplaces: GetMyPlacesResponse!
   getNearbyDrivers: getNearbyDriversRespones!

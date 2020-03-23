@@ -1,7 +1,7 @@
 export const ChatMessageSubscription = {
-  subscribe: async (_parent, _args, ctx, info) => {
+  subscribe: async (_parent, args, ctx, info) => {
+    console.log("args", args);
     const { currentUser } = ctx.context;
-    console.log("currentUser", currentUser);
 
     const ChatSubscription = await ctx.prisma.subscription.chatMessage(
       {
