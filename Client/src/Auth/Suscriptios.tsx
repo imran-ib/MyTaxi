@@ -5,7 +5,7 @@ import { ChatSubscription } from "./AuthResolvers";
 const Suscriptios = () => {
   const { data, loading, error } = useSubscription(ChatSubscription, {
     variables: {
-      text: "Hello",
+      text: "Hellolll",
       chatId: "ck7z3y3p3ac2t0950io1h1f51"
     }
   });

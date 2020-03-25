@@ -18,6 +18,7 @@ server.express.use(
   async (req, res, next): Promise<User | undefined | void> => {
     // const Token = req.get("X-JWT");
     const { Token } = req.cookies;
+
     if (!Token) return next();
     if (Token) {
       const UserId = await DecaodeJWT(Token);
@@ -46,6 +47,7 @@ server.start(
       onConnect: async connectionPrams => {
         console.log("connectionPrams", connectionPrams);
         const Token = connectionPrams["X-JWT"];
+        console.log("Token", Token);
         if (Token) {
           const User = await DecaodeJWT(Token);
           if (User) {
